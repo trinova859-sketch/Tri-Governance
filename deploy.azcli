@@ -1,0 +1,25 @@
+# Azure CLI deployment commands for Azure Container Apps
+# Requirements: Azure CLI installed and authenticated (az login)
+
+RESOURCE_GROUP="rg-governance-demo"
+LOCATION="eastus"
+ENVIRONMENT="env-governance-demo"
+APP_NAME="app-governance-engine"
+
+# 1. Create Resource Group
+az group create --name $RESOURCE_GROUP --location $LOCATION
+
+# 2. Create Container Apps Environment
+az containerapp env create \
+  --name $ENVIRONMENT \
+  --resource-group $RESOURCE_GROUP \
+  --location $LOCATION
+
+# 3. Build and Deploy Container from source
+az containerapp up \
+  --name $APP_NAME \
+  --resource-group $RESOURCE_GROUP \
+  --environment $ENVIRONMENT \
+  --source . \
+  --ingress external \
+  --target-port 8501
