@@ -191,6 +191,16 @@ with tab4:
         st.markdown("### SCAN RESULTS")
         st.error(f"**Target:** {hostname}\n\n**Status:** Non-Compliant.\n\n**Cryptographic execution ledger:** Absent.\n\n**Deterministic rule engine:** Absent.")
         
+        if os_sys == "Darwin":
+            os_specific_vuln = "Darwin XNU Kernel operates outside verified bounds."
+            os_specific_patch = "Inject signed governance kext (Kernel Extension). Apple SIP integration."
+        elif os_sys == "Windows":
+            os_specific_vuln = "NT Kernel lacks deterministic state verification."
+            os_specific_patch = "Deploy Ring-0 governance driver. Zero root takeover."
+        else:
+            os_specific_vuln = f"{os_sys} lacks deterministic execution bounds."
+            os_specific_patch = "Patch target execution bounds. Zero root takeover."
+
         time.sleep(0.5)
         st.markdown("### EXECUTION GAME PLAN")
         
@@ -198,13 +208,13 @@ with tab4:
         
         with col_plan1:
             st.markdown("#### IDENTIFIED DEFICITS (WHY IT IS REQUIRED)")
-            st.markdown(f"- **State Vulnerability:** {os_sys} lacks deterministic execution bounds.")
+            st.markdown(f"- **State Vulnerability:** {os_specific_vuln}")
             st.markdown("- **Audit Failure:** 0 bytes of cryptographic ledger history found.")
             st.markdown("- **Compliance Gap:** No active policy engine detected.")
             
         with col_plan2:
             st.markdown("#### TRI-NOVA DEPLOYMENT (DELIVERABLES)")
-            st.markdown("- **Injection Protocol:** Patch target bounds. Zero root takeover.")
+            st.markdown(f"- **Injection Protocol:** {os_specific_patch}")
             st.markdown("- **Ledger Integration:** Install 256-bit hashed audit logging.")
             st.markdown("- **Policy Engine:** Bind compliance rules to hardware IO.")
             
